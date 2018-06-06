@@ -10,6 +10,12 @@ class ChannelPolicy
 {
     use HandlesAuthorization;
 
+
+    public function edit(User $user, Channel $channel)
+    {
+        return $user->id == $channel->user_id;
+    }
+
     public function update(User $user, Channel $channel)
     {
         return $user->id == $channel->user_id;

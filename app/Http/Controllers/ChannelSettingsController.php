@@ -11,6 +11,7 @@ class ChannelSettingsController extends Controller
 {
     public function edit(Channel $channel)
     {
+    	$this->authorize('edit', $channel);
     	return view('channel.settings.index', ['channel' => $channel]);
     }
 
@@ -37,6 +38,12 @@ class ChannelSettingsController extends Controller
 
     	$this->authorize('update', $channel);
 
-    	dd($request->all());
+    	$channel->update([
+    		'name' => $request->name,
+    		'slug' => $request->slug,
+    		'description' => $request->description,
+    	]);
+
+    	return redirect()->route('channel.edit', $channel->slug);
     }
 }
