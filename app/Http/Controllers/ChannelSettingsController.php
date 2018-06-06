@@ -35,6 +35,8 @@ class ChannelSettingsController extends Controller
     		return redirect()->back()->withErrors($validator);
     	}
 
+    	$this->authorize('update', $channel);
+
     	dd($request->all());
     }
 }
