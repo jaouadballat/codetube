@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use Illuminate\Support\Facades\Auth;
+use Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
@@ -15,9 +15,14 @@ class ComposerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        View::composer('layouts.partials.navigation', function($view) {
-            $view->with('channel', Auth::user()->channel->first());
-        });
+        
+            View::composer('layouts.partials.navigation', function($view) {
+
+                $view->with('channel', Auth::check() ? Auth::user()->channel->first() : '');
+
+            });
+        
+        
     }
 
     /**
