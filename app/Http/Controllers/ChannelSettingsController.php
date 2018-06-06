@@ -44,6 +44,22 @@ class ChannelSettingsController extends Controller
     		'description' => $request->description,
     	]);
 
+        if($request->hasFile('thumbnail')) {
+
+            
+            $path = $request->file('thumbnail')->storeAs(
+                'public/uploads', uniqid(true) . '.png'
+            );
+
+            $channel->update([
+                'image' => $path 
+            ]);
+            
+        }
+
+
+
+
     	return redirect()->route('channel.edit', $channel->slug);
     }
 }

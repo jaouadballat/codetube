@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-            <form action="{{ route('channel.update', $channel->slug) }}" method="POST">
+            <form action="{{ route('channel.update', $channel->slug) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
                 <div class="card">
@@ -56,9 +56,9 @@
                                         <strong>{{ $errors->first('description') }}</strong>
                                     </span>
                                 @endif
+                                <input type="file" name="thumbnail" class="form-control mt-2">
                             </div>
                         </div>
-
                         <input type="submit" class="btn btn-primary" value="Update">
 
                     </div>
