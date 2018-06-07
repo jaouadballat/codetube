@@ -66,9 +66,6 @@ class ChannelSettingsController extends Controller
             
         }
 
-
-
-
     	return redirect()->route('channel.edit', $channel->slug);
     }
 }
