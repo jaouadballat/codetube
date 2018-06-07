@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Channel;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
+use Intervention\Image\Facades\Image;
 
 class ChannelSettingsController extends Controller
 {
@@ -46,13 +48,20 @@ class ChannelSettingsController extends Controller
 
         if($request->hasFile('thumbnail')) {
 
-            
-            $path = $request->file('thumbnail')->storeAs(
-                'public/uploads', uniqid(true) . '.png'
-            );
+            $path = public_path().'/uploads';
+
+            //check if the path exist 
+
+            File::isDirectory($path) or File::makeDirectory($path, 0777, true, true);
+
+            $pathname = '/uploads/' .uniqid(true) . '.png';
+
+            Image::make($request->file('thumbnail'))
+            ->resize(50, 40)
+            ->save(public_path($pathname));
 
             $channel->update([
-                'image' => $path 
+                'image' => $pathname 
             ]);
             
         }

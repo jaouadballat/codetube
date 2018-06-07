@@ -82,6 +82,8 @@
                     Laravel
                 </div>
 
+                <img src="{{ asset(Auth::user()->channel->first()->image) }}">
+
                 <div class="links">
                     <a href="https://laravel.com/docs">Documentation</a>
                     <a href="https://laracasts.com">Laracasts</a>
