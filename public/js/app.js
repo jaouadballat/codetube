@@ -47353,24 +47353,31 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
         return {
             uploading: false,
-            uploadComplete: false,
+            uploadingComplete: false,
             failed: false,
             title: 'untitled',
             visibility: 'private',
             description: null,
             file: '',
             uid: '',
+            fileProgress: 0,
             saveStatus: null
         };
     },
 
     methods: {
         fileUploadChange: function fileUploadChange() {
+
             this.uploading = true;
             this.file = document.getElementById('video').files[0];
             this.store();
@@ -47385,14 +47392,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 extension: this.file.name.split('.').pop()
 
             }).then(function (response) {
-                return _this.uid = response.data.uid;
+                _this.uid = response.data.uid;
+            }).then(function () {
+
+                var form = new FormData();
+                form.append('video', _this.file);
+                form.append('uid', _this.uid);
+
+                axios.post('/upload', form, {
+                    onUploadProgress: function onUploadProgress(e) {
+                        _this.fileProgress = e.loaded * 100 / e.total;
+                    }
+                }).then(function () {
+                    return _this.uploadingComplete = true;
+                }).catch(function (error) {
+                    return _this.failed = true;
+                });
+            }).catch(function (error) {
+                return _this.failed = true;
             });
         },
         update: function update() {
             var _this2 = this;
 
             this.saveStatus = 'Saving Changes';
-            console.log(this.title);
 
             axios.put('/video/' + this.uid, {
 
@@ -47431,6 +47454,21 @@ var render = function() {
           _c("div", { staticClass: "card-header" }, [_vm._v("Upload Video")]),
           _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
+            _vm.uploading && !_vm.uploadingComplete
+              ? _c("div", { staticClass: "progress mb-2" }, [
+                  _c("div", {
+                    staticClass: "progress-bar",
+                    style: { width: _vm.fileProgress + "%" },
+                    attrs: {
+                      role: "progressbar",
+                      "aria-valuenow": "25",
+                      "aria-valuemin": "0",
+                      "aria-valuemax": "100"
+                    }
+                  })
+                ])
+              : _vm._e(),
+            _vm._v(" "),
             !_vm.uploading
               ? _c("input", {
                   staticClass: "form-control",

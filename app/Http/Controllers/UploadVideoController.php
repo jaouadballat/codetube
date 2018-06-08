@@ -10,4 +10,9 @@ class UploadVideoController extends Controller
     {
     	return view('video.index');
     }
+
+    public function store()
+    {
+    	# code...
+    }
 }

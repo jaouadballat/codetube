@@ -6,6 +6,11 @@
                     <div class="card-header">Upload Video</div>
 
                     <div class="card-body">
+
+                        <div class="progress mb-2" v-if="uploading && !uploadingComplete">
+                          <div class="progress-bar" role="progressbar" :style="{width: fileProgress + '%' }" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+
                         <input type="file" name="video" id="video" class="form-control" 
                         @change="fileUploadChange" v-if="!uploading">
                         <form v-if="uploading && !failed">
@@ -45,21 +50,23 @@
         data() {
             return {
                 uploading: false,
-                uploadComplete: false,
+                uploadingComplete: false,
                 failed: false,
                 title: 'untitled',
                 visibility: 'private',
                 description:null,
                 file: '',
                 uid: '',
+                fileProgress: 0,
                 saveStatus: null
             }
         },
         methods: {
             fileUploadChange() {
+
                 this.uploading = true;
                 this.file = document.getElementById('video').files[0];
-                this.store()
+                this.store();
             },
 
             store() {
@@ -69,11 +76,25 @@
                     visibility: this.visibility,
                     extension: this.file.name.split('.').pop()
 
-                }).then(response => this.uid = response.data.uid)
+                }).then(response => {
+                    this.uid = response.data.uid
+                }).then(() => {
+
+                    let form = new FormData();
+                    form.append('video', this.file)
+                    form.append('uid', this.uid)
+
+                    axios.post('/upload', form, {
+                        onUploadProgress : (e) =>{
+                            this.fileProgress = e.loaded * 100 / e.total;
+                        }
+                    }).then(() => this.uploadingComplete = true)
+                      .catch(error => this.failed = true)
+               
+                }).catch(error => this.failed = true)
             },
             update() {
                 this.saveStatus = 'Saving Changes';
-                console.log(this.title)
 
                 axios.put(`/video/${this.uid}`, {
 
