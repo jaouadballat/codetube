@@ -6,11 +6,33 @@
                     <div class="card-header">Upload Video</div>
 
                     <div class="card-body">
-                        <input type="file" name="video" class="form-control" 
+                        <input type="file" name="video" id="video" class="form-control" 
                         @change="fileUploadChange" v-if="!uploading">
-                        <div v-if="uploading && !failed">
-                            Form
-                        </div>
+                        <form v-if="uploading && !failed">
+
+                            <div class="form-group">
+                                <label>Tile: </label>
+                                <input type="text" class="form-control" v-model="title">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Description: </label>
+                              <textarea class="form-control" v-model="description"></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Visibility: </label>
+                                <select v-model="visibility" class="form-control">
+                                    <option value="private">Private</option>
+                                    <option value="unlisted">Unlisted</option>
+                                    <option value="public">Public</option>
+                                </select>
+                            </div>
+
+                            <input type="submit" value="Update" class="btn btn-default" @click.prevent = "update">
+                            <span class="hfont-weight-light float-right">{{ saveStatus }}</span>
+
+                        </form>
                     </div>
                 </div>
             </div>
@@ -24,13 +46,53 @@
             return {
                 uploading: false,
                 uploadComplete: false,
-                failed: false
+                failed: false,
+                title: 'untitled',
+                visibility: 'private',
+                description:null,
+                file: '',
+                uid: '',
+                saveStatus: null
             }
         },
         methods: {
             fileUploadChange() {
-                console.log('file change')
                 this.uploading = true;
+                this.file = document.getElementById('video').files[0];
+                this.store()
+            },
+
+            store() {
+                axios.post('/video', {
+
+                    title: this.title,
+                    visibility: this.visibility,
+                    extension: this.file.name.split('.').pop()
+
+                }).then(response => this.uid = response.data.uid)
+            },
+            update() {
+                this.saveStatus = 'Saving Changes';
+                console.log(this.title)
+
+                axios.put(`/video/${this.uid}`, {
+
+                    title: this.title,
+                    description: this.description,
+                    visibility: this.visibility
+
+                }).then(response => {
+                        this.saveStatus = 'Changes Saved'
+                        
+                        setTimeout(() => {
+                            this.saveStatus = null;
+                        }, 3000);
+
+
+
+                    }).catch(error => {
+                        this.saveStatus = 'Changes Saved Failed'
+                    })
             }
         },
         mounted() {

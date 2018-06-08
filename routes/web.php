@@ -26,6 +26,9 @@ Route::get('/channel/{channel}/edit', 'ChannelSettingsController@edit')->name('c
 Route::put('/channel/{channel}/edit', 'ChannelSettingsController@update')->name('channel.update');
 
 Route::get('/upload', 'UploadVideoController@index')->name('video.index');
+Route::post('/video', 'VideoController@store')->name('video.store');
+Route::put('/video/{video}', 'VideoController@update')->name('video.update');
+
 
 	// Route::get('/channel/{channel}/edit', 'ChannelSettingsController@edit')->name('channel.edit');
 

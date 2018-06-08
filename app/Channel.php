@@ -23,4 +23,9 @@ class Channel extends Model
     {
     	return $this->belongsTo('App\User');
     }
+
+    public function videos()
+    {
+        return $this->hasMany('App\Video');
+    }
 }
