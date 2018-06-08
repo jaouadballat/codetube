@@ -18,5 +18,6 @@ window.Vue = require('vue');
 Vue.component('videoUpload', require('./components/VideoUpload.vue'));
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
+    data: window.codetube
 });

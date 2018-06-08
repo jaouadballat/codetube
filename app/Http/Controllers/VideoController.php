@@ -12,6 +12,7 @@ class VideoController extends Controller
 
 	public function update(VideoUpdateRequest $request, Video $video)
 	{
+
 		$this->authorize('update', $video);
 
 		$video->update([

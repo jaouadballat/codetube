@@ -7,6 +7,15 @@
 
                     <div class="card-body">
 
+                    <div class="alert alert-danger" v-if="failed">Somthing goes wrong here</div>
+                    
+                    <div class="alert alert-info" v-if="uploading && !uploadingComplete">
+                        Your video will be availlable at {{ $root.url + uid  }}
+                    </div>
+                    <div class="alert alert-info" v-if="uploadingComplete">
+                        Uploading complete. <a :href="$root.url+'videos/'+uid">Check you video</a>
+                    </div>
+
                         <div class="progress mb-2" v-if="uploading && !uploadingComplete">
                           <div class="progress-bar" role="progressbar" :style="{width: fileProgress + '%' }" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
                         </div>
@@ -117,7 +126,8 @@
             }
         },
         mounted() {
-            console.log('Component mounted.')
+            // this.url = window.codetube.url
+            // console.log(this.$root.user)
         }
     }
 </script>

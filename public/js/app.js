@@ -13894,7 +13894,8 @@ window.Vue = __webpack_require__(36);
 Vue.component('videoUpload', __webpack_require__(39));
 
 var app = new Vue({
-  el: '#app'
+  el: '#app',
+  data: window.codetube
 });
 
 /***/ }),
@@ -47358,6 +47359,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -47435,7 +47445,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
     },
     mounted: function mounted() {
-        console.log('Component mounted.');
+        // this.url = window.codetube.url
+        // console.log(this.$root.user)
     }
 });
 
@@ -47454,6 +47465,33 @@ var render = function() {
           _c("div", { staticClass: "card-header" }, [_vm._v("Upload Video")]),
           _vm._v(" "),
           _c("div", { staticClass: "card-body" }, [
+            _vm.failed
+              ? _c("div", { staticClass: "alert alert-danger" }, [
+                  _vm._v("Somthing goes wrong here")
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.uploading && !_vm.uploadingComplete
+              ? _c("div", { staticClass: "alert alert-info" }, [
+                  _vm._v(
+                    "\n                    Your video will be availlable at " +
+                      _vm._s(_vm.$root.url + _vm.uid) +
+                      "\n                "
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
+            _vm.uploadingComplete
+              ? _c("div", { staticClass: "alert alert-info" }, [
+                  _vm._v("\n                    Uploading complete. "),
+                  _c(
+                    "a",
+                    { attrs: { href: _vm.$root.url + "videos/" + _vm.uid } },
+                    [_vm._v("Check you video")]
+                  )
+                ])
+              : _vm._e(),
+            _vm._v(" "),
             _vm.uploading && !_vm.uploadingComplete
               ? _c("div", { staticClass: "progress mb-2" }, [
                   _c("div", {
