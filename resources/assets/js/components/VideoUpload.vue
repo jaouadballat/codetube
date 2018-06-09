@@ -22,7 +22,7 @@
 
                         <input type="file" name="video" id="video" class="form-control" 
                         @change="fileUploadChange" v-if="!uploading">
-                        <form v-if="uploading && !failed">
+                        <form v-if="uploading && !failed" enctype="multipart/form-data">
 
                             <div class="form-group">
                                 <label>Tile: </label>
@@ -41,6 +41,11 @@
                                     <option value="unlisted">Unlisted</option>
                                     <option value="public">Public</option>
                                 </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Video Thumbnail:</label>
+                                <input type="file" name="video_thumbnail" id="video_thumbnail" class="form-control">
                             </div>
 
                             <input type="submit" value="Update" class="btn btn-default" @click.prevent = "update">
@@ -67,7 +72,8 @@
                 file: '',
                 uid: '',
                 fileProgress: 0,
-                saveStatus: null
+                saveStatus: null,
+                video_thumbnail: ''
             }
         },
         methods: {
@@ -88,7 +94,6 @@
                 }).then(response => {
                     this.uid = response.data.uid
                 }).then(() => {
-
                     let form = new FormData();
                     form.append('video', this.file)
                     form.append('uid', this.uid)
@@ -104,14 +109,16 @@
             },
             update() {
                 this.saveStatus = 'Saving Changes';
-
-                axios.put(`/video/${this.uid}`, {
-
-                    title: this.title,
-                    description: this.description,
-                    visibility: this.visibility
-
-                }).then(response => {
+                this.video_thumbnail = document.getElementById('video_thumbnail').files[0];
+                let formData = new FormData();
+                formData.append('title', this.title)
+                formData.append('description', this.description)
+                formData.append('visibility', this.visibility)
+                formData.append('visibility', this.visibility)
+                formData.append('video_thumbnail', this.video_thumbnail)
+                
+                axios.post(`/video/${this.uid}`, formData)
+                .then(response => {
                         this.saveStatus = 'Changes Saved'
                         
                         setTimeout(() => {
@@ -126,8 +133,6 @@
             }
         },
         mounted() {
-            // this.url = window.codetube.url
-            // console.log(this.$root.user)
         }
     }
 </script>

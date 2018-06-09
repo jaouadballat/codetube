@@ -16,6 +16,7 @@ class UploadVideoController extends Controller
     	$channel = $request->user()->channel()->first();
     	$video = $channel->videos()->where('uid', $request->uid)->first();
     	$request->file('video')->storeAs('public/uploads', $video->video_filename);
+    	
     	return response()->json(null, 200);
     }
 }

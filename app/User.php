@@ -31,4 +31,9 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Channel');
     }
+
+    public function videos()
+    {
+        return $this->hasManyThrough('App\Video', 'App\Channel');
+    }
 }

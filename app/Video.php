@@ -32,4 +32,9 @@ class Video extends Model
     {
     	return 'uid';
     }
+
+    public function scopeLatestFirst($query)
+    {
+    	return $query->orderBy('created_at', 'desc');
+    }
 }

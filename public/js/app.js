@@ -47368,6 +47368,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -47381,7 +47386,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             file: '',
             uid: '',
             fileProgress: 0,
-            saveStatus: null
+            saveStatus: null,
+            video_thumbnail: ''
         };
     },
 
@@ -47404,7 +47410,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).then(function (response) {
                 _this.uid = response.data.uid;
             }).then(function () {
-
                 var form = new FormData();
                 form.append('video', _this.file);
                 form.append('uid', _this.uid);
@@ -47426,14 +47431,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var _this2 = this;
 
             this.saveStatus = 'Saving Changes';
+            this.video_thumbnail = document.getElementById('video_thumbnail').files[0];
+            var formData = new FormData();
+            formData.append('title', this.title);
+            formData.append('description', this.description);
+            formData.append('visibility', this.visibility);
+            formData.append('visibility', this.visibility);
+            formData.append('video_thumbnail', this.video_thumbnail);
 
-            axios.put('/video/' + this.uid, {
-
-                title: this.title,
-                description: this.description,
-                visibility: this.visibility
-
-            }).then(function (response) {
+            axios.post('/video/' + this.uid, formData).then(function (response) {
                 _this2.saveStatus = 'Changes Saved';
 
                 setTimeout(function () {
@@ -47444,10 +47450,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         }
     },
-    mounted: function mounted() {
-        // this.url = window.codetube.url
-        // console.log(this.$root.user)
-    }
+    mounted: function mounted() {}
 });
 
 /***/ }),
@@ -47516,7 +47519,7 @@ var render = function() {
               : _vm._e(),
             _vm._v(" "),
             _vm.uploading && !_vm.failed
-              ? _c("form", [
+              ? _c("form", { attrs: { enctype: "multipart/form-data" } }, [
                   _c("div", { staticClass: "form-group" }, [
                     _c("label", [_vm._v("Tile: ")]),
                     _vm._v(" "),
@@ -47615,6 +47618,8 @@ var render = function() {
                     )
                   ]),
                   _vm._v(" "),
+                  _vm._m(0),
+                  _vm._v(" "),
                   _c("input", {
                     staticClass: "btn btn-default",
                     attrs: { type: "submit", value: "Update" },
@@ -47639,7 +47644,21 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "form-group" }, [
+      _c("label", [_vm._v("Video Thumbnail:")]),
+      _vm._v(" "),
+      _c("input", {
+        staticClass: "form-control",
+        attrs: { type: "file", name: "video_thumbnail", id: "video_thumbnail" }
+      })
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
