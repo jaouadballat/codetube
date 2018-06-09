@@ -84,7 +84,7 @@
                     title: this.title,
                     visibility: this.visibility,
                     extension: this.file.name.split('.').pop()
-
+ 
                 }).then(response => {
                     this.uid = response.data.uid
                 }).then(() => {
