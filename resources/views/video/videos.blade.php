@@ -18,23 +18,28 @@
 			                    		@endif
 			                    	</div>
 			                    	<div class="col">
-			                    		<a href="">
+			                    		<a href="/video/{{ $video->uid }}">
 			                    			{{ $video->title }}
 			                    		</a>
 			                    		<p>{{ $video->created_at }}</p>
 			                    	</div>
 			                    	<div class="col">{{ $video->visibility }}</div>
 			                    	<div class="col">
-			                    		<form action="">
+			                    		<form action="{{ route('video.delete', $video->uid) }}" method="post">
 			                    			<a href="/videos/{{ $video->uid }}/edit" class="btn btn-sm btn-info">Edit</a>
-			                    			<a href="/videos/{{ $video->uid }}/edit" class="btn btn-sm btn-danger">Delete</a>
+			                    			<button class="btn btn-sm btn-danger" type="submit">Delete</button>
+
+			                    			@csrf
+			                    			@method('DELETE')
 			                    		</form>
 			                    	</div>
 			                    </div>
 			                </div>
 		            	@endforeach
 		            @else
-		            You have no videos here !
+		            <p class="text-center">
+		            	You have no videos here !
+		            </p>
 		            @endif
 	            </div>
 

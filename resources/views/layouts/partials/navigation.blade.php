@@ -25,6 +25,9 @@
         </li>
     @else
         <li class="nav-item">
+            <a class="nav-link" href="/videos">videos</a>
+        </li>
+        <li class="nav-item">
             <a class="nav-link" href="{{ route('video.index') }}">upload</a>
         </li>
         <li class="nav-item dropdown">

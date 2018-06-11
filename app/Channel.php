@@ -28,4 +28,13 @@ class Channel extends Model
     {
         return $this->hasMany('App\Video');
     }
+
+    public function getImage()
+    {
+        if (!$this->image) {
+            return '/uploads/default.jpg';
+        }
+
+        return $this->image;
+    }
 }

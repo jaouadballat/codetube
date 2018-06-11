@@ -11,6 +11,13 @@ use Intervention\Image\Facades\Image;
 class VideoController extends Controller
 {
 
+    public function show(Video $video)
+    {
+       return view('video.show', [
+            'video' => $video
+        ]);
+    }
+
     public function index(Request $request)
     {
 
@@ -83,5 +90,12 @@ class VideoController extends Controller
     	]);
 
 
+    }
+
+    public function delete(Video $video)
+    {
+
+       $video->delete();
+       return redirect()->back();
     }
 }

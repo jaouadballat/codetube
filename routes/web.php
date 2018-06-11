@@ -19,6 +19,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('/video/{video}', 'VideoController@show');
 
 Route::middleware(['auth'])->group(function() {
 
@@ -33,6 +34,7 @@ Route::post('/video', 'VideoController@store')->name('video.store');
 Route::get('/videos', 'VideoController@index');
 Route::post('/video/{video}', 'VideoController@update')->name('video.update');
 Route::get('/videos/{video}/edit', 'VideoController@edit')->name('video.edit');
+Route::delete('/videos/{video}/delete', 'VideoController@delete')->name('video.delete');
 
 
 	
