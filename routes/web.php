@@ -32,6 +32,7 @@ Route::post('/upload', 'UploadVideoController@store')->name('video.uploade');
 Route::post('/video', 'VideoController@store')->name('video.store');
 Route::get('/videos', 'VideoController@index');
 Route::post('/video/{video}', 'VideoController@update')->name('video.update');
+Route::get('/videos/{video}/edit', 'VideoController@edit')->name('video.edit');
 
 
 	

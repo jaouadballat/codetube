@@ -14,12 +14,20 @@ class VideoController extends Controller
     public function index(Request $request)
     {
 
-        $videos = $request->user()->videos()->latestFirst()->get();
+        $videos = $request->user()->videos()->latestFirst()->paginate(2);
         return view('video.videos', [
             'videos' => $videos
         ]);
     }
 
+    public function edit(Video $video)
+    {
+        $this->authorize('edit', $video);
+
+        return view('video.edit', [
+            'video' => $video
+        ]);
+    }
 
 	public function update(VideoUpdateRequest $request, Video $video)
 	{
@@ -30,6 +38,8 @@ class VideoController extends Controller
 			'title' => $request->title,
 			'description' => $request->description,
 			'visibility' => $request->visibility,
+            'allow_comments' => (bool)$request->allow_comments,
+            'allow_votes' => (bool)$request->allow_votes
 		]);
 
         if($request->hasFile('video_thumbnail')) {
@@ -46,8 +56,11 @@ class VideoController extends Controller
             ->save(public_path($pathname));
 
         }
+        if($request->Ajax()){
+		  return response()->json(null, 200);
+        }
 
-		return response()->json(null, 200);
+        return redirect()->back();
 	}
 
 

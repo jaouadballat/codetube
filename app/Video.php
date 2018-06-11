@@ -37,4 +37,14 @@ class Video extends Model
     {
     	return $query->orderBy('created_at', 'desc');
     }
+
+    public function allowVotes()
+    {
+    	return $this->allow_votes;
+    }
+
+    public function allowComments()
+    {
+    	return $this->allow_comments;
+    }
 }
