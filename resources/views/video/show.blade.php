@@ -4,10 +4,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-10 offset-md-1">
-        @if($video->isPrivate() && Auth::check() && $video->ownedByUser(Auth::user()))
-            <div class="alert alert-info">
-                This video is private.Only you can see it.
-            </div>
+        @if(Auth::check() && $video->ownedByUser(Auth::user()))
             <div>
                 <video-player 
                     :video-uid="'{{ $video->uid }}'"

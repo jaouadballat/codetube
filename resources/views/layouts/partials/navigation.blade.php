@@ -10,7 +10,10 @@
 <div class="collapse navbar-collapse" id="navbarSupportedContent">
 <!-- Left Side Of Navbar -->
 <ul class="navbar-nav mr-auto">
-
+    <form class="form-inline" action="/search" method="get">
+          <input class="form-control mr-sm-2" name="q" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
+    </form>
 </ul>
 
 <!-- Right Side Of Navbar -->
@@ -24,6 +27,7 @@
             <a class="nav-link" href="{{ route('register') }}">{{ __('Register') }}</a>
         </li>
     @else
+        
         <li class="nav-item">
             <a class="nav-link" href="/videos">videos</a>
         </li>

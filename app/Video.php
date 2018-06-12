@@ -83,4 +83,12 @@ class Video extends Model
     {
         return $this->views()->count();
     }
+
+    public function scopeSearch($query, $q)
+    {
+        return $query->where('title', 'like', '%'. $q .'%')
+                     ->where('visibility', 'public')->get();
+    }
+
+    
 }

@@ -37,4 +37,9 @@ class Channel extends Model
 
         return $this->image;
     }
+
+    public function scopeSearch($query, $q)
+    {
+        return $query->where('name', 'LIKE', '%'. $q .'%')->take(2)->get();
+    }
 }

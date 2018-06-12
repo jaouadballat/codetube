@@ -21,6 +21,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/video/{video}', 'VideoController@show');
 
+Route::get('/search', 'SearchController@index');
+
 Route::post('/video/{video}/views', 'VideoViewController@store');
 
 Route::middleware(['auth'])->group(function() {
