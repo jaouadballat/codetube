@@ -2,8 +2,10 @@
 
 namespace App;
 
+use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 
 
 class Video extends Model
@@ -46,5 +48,29 @@ class Video extends Model
     public function allowComments()
     {
     	return $this->allow_comments;
+    }
+
+    public function isPrivate()
+    {
+        return $this->visibility === 'private';
+    }
+
+    public function ownedByUser(User $user)
+    {
+        return $this->channel->user_id == $user->id;
+    }
+
+    public function getThumbnail()
+    {
+        if(file_exists(public_path('/uploads/' . $this->uid . '.png'))){
+            return '/uploads/' . $this->uid . '.png';
+        }
+
+        return '/uploads/default.jpg';
+    }
+
+    public function getVideoUrl()
+    {
+        return Storage::url('uploads/' . $this->video_filename);
     }
 }

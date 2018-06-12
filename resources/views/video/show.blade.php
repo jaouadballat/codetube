@@ -4,11 +4,27 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-10 offset-md-1">
-            Video Player
-
+        @if($video->isPrivate() && Auth::check() && $video->ownedByUser(Auth::user()))
+            <div class="alert alert-info">
+                This video is private.Only you can see it.
+            </div>
+            <div>
+                <video-player 
+                    :video-uid="'{{ $video->uid }}'"
+                    :video-url="'{{ $video->getVideoUrl() }}'"
+                    :video-thumbnail="'{{ $video->getThumbnail() }}'"
+                />
+            </div>
+        @else
+            <div class="video_placeholder">
+                <p>
+                    this video is private
+                </p>
+            </div>
+        @endif
             <div class="card mt-2">
-                <h2>{{ $video->title }}</h2>
                 <div class="card-body">
+                <h2>{{ $video->title }}</h2>
                 <div class="float-right">video views</div>
                 	<div class="media">
 					  <img class="mr-3" src="{{ $video->channel->getImage() }}">
@@ -24,15 +40,19 @@
             </div>
 
             <div class="card mt-2">
-                {{ $video->description }}
+                <div class="card-body">
+                    {{ $video->description }}
+                </div>
             </div>
 
             <div class="card mt-2">
-            	@if($video->allowComments())
-                	Comments
-                @else
-                	Comments are disabled for this video
-                @endif
+            	<div class="card-body">
+                    @if($video->allowComments())
+                        Comments
+                    @else
+                        Comments are disabled for this video
+                    @endif   
+                </div>
             </div>
         </div>
     </div>
