@@ -21,6 +21,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/video/{video}', 'VideoController@show');
 
+Route::post('/video/{video}/views', 'VideoViewController@store');
+
 Route::middleware(['auth'])->group(function() {
 
 Route::get('/channel/{channel}/edit', 'ChannelSettingsController@edit')->name('channel.edit');

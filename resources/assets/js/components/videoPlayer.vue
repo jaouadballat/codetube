@@ -22,5 +22,33 @@
 import videojs from 'video.js';
 	export default {
 		props: ['videoUid', 'videoUrl', 'videoThumbnail'],
+		data() {
+			return {
+				duration:0
+			}
+		},
+
+		methods: {
+			hitView() {
+				axios.post(`/video/${this.videoUid}/views`)
+				.then(response => console.log(response))
+			}
+		},
+		mounted() {
+			let video = document.getElementById('video');
+			video.onloadedmetadata = (e) => {
+				this.duration = Math.round(video.duration)
+			}
+
+			setInterval(() => {
+				if(!this.duration){
+					return 0;
+				}
+				if(Math.round(Math.round(this.duration * 10 / 100)) === Math.round(video.currentTime)){
+					this.hitView()
+				}
+
+			}, 1000)
 		}
+	}
 </script>

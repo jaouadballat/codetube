@@ -73,4 +73,14 @@ class Video extends Model
     {
         return Storage::url('uploads/' . $this->video_filename);
     }
+
+    public function views()
+    {
+        return $this->hasMany('App\VideoView');
+    }
+
+    public function viewCount()
+    {
+        return $this->views()->count();
+    }
 }

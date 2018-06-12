@@ -25,7 +25,7 @@
             <div class="card mt-2">
                 <div class="card-body">
                 <h2>{{ $video->title }}</h2>
-                <div class="float-right">video views</div>
+                <div class="float-right">{{ $video->viewCount() }} {{ str_plural('view', $video->viewCount()) }}</div>
                 	<div class="media">
 					  <img class="mr-3" src="{{ $video->channel->getImage() }}">
 					  <div class="media-body">
