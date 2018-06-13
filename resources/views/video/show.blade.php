@@ -55,7 +55,9 @@
             <div class="card mt-2">
             	<div class="card-body">
                     @if($video->allowComments())
-                        Comments
+                        <video-comments
+                            :video-uid="'{{ $video->uid }}'"
+                        />
                     @else
                         Comments are disabled for this video
                     @endif   

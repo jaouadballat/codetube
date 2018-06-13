@@ -23,7 +23,7 @@ class Comment extends JsonResource
             'created_at' => $this->created_at,
             'created_at' => $this->created_at->toDateTimeString(),
             'created_at_human' => $this->created_at->diffForHumans(),
-            'channel' =>  new ChannelResource($this->video->channel),
+            'channel' =>  new ChannelResource($this->user->channel->first()),
             'replies' => ReplayResource::collection($this->replies)
         ];
     }

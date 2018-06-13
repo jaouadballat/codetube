@@ -14206,6 +14206,7 @@ window.Vue = __webpack_require__(40);
 Vue.component('videoUpload', __webpack_require__(43));
 Vue.component('videoPlayer', __webpack_require__(46));
 Vue.component('videoVoting', __webpack_require__(76));
+Vue.component('videoComments', __webpack_require__(88));
 
 var app = new Vue({
   el: '#app',
@@ -96346,6 +96347,197 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 85 */,
+/* 86 */,
+/* 87 */,
+/* 88 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(4)
+/* script */
+var __vue_script__ = __webpack_require__(89)
+/* template */
+var __vue_template__ = __webpack_require__(90)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\videoComments.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-7452de48", Component.options)
+  } else {
+    hotAPI.reload("data-v-7452de48", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 89 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['videoUid'],
+    data: function data() {
+        return {
+            comments: []
+        };
+    },
+    mounted: function mounted() {
+        this.getComments();
+    },
+
+    methods: {
+        getComments: function getComments() {
+            var _this = this;
+
+            axios.get('/video/' + this.videoUid + '/comment').then(function (response) {
+                console.log(response.data.data);_this.comments = response.data.data;
+            });
+        }
+    }
+});
+
+/***/ }),
+/* 90 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("p", [
+        _vm._v(
+          _vm._s(_vm.comments.length) +
+            " " +
+            _vm._s(_vm.comments.length > 1 ? "comments" : "comment")
+        )
+      ]),
+      _vm._v(" "),
+      _vm._l(_vm.comments, function(comment) {
+        return _c("div", { key: comment.id, staticClass: "media mt-3" }, [
+          _c("a", { attrs: { href: "/channel/" + comment.channel.slug } }, [
+            _c("img", {
+              staticClass: "mr-3",
+              attrs: { src: comment.channel.image }
+            })
+          ]),
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "media-body" },
+            [
+              _c("h5", { staticClass: "mt-0" }, [
+                _vm._v(
+                  "\n                " +
+                    _vm._s(comment.channel.name) +
+                    "\n            "
+                )
+              ]),
+              _vm._v(
+                "\n            " + _vm._s(comment.body) + "\n            "
+              ),
+              _vm._l(comment.replies, function(reply) {
+                return _c("div", { key: reply.id, staticClass: "media mt-2" }, [
+                  _c(
+                    "a",
+                    { attrs: { href: "/channel/" + reply.channel.slug } },
+                    [
+                      _c("img", {
+                        staticClass: "mr-3",
+                        attrs: { src: reply.channel.image }
+                      })
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "media-body" }, [
+                    _c("h5", { staticClass: "mt-0" }, [
+                      _vm._v(_vm._s(reply.channel.name))
+                    ]),
+                    _vm._v(
+                      "\n                        " +
+                        _vm._s(reply.body) +
+                        "\n                "
+                    )
+                  ])
+                ])
+              })
+            ],
+            2
+          )
+        ])
+      })
+    ],
+    2
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-7452de48", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);
