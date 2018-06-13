@@ -12,4 +12,9 @@ class VideoVoteController extends Controller
     {
     	return new VideoResource($video);
     }
+
+    public function FunctionName(Type $var = null)
+    {
+        # code...
+    }
 }

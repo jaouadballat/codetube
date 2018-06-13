@@ -96243,36 +96243,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 	methods: {
 		vote: function vote(type) {
 			if (!this.userVote) {
-				console.log('usrvoted null');
-				if (type === 'up') {
-					this.up++;
-					this.userVote = 'up';
-				} else {
-					this.down++;
-					this.userVote = 'down';
-				}
+				this[type]++;
+				this.userVote = type;
 				return;
 			}
 			if (this.userVote === type) {
-				console.log('user voted == type');
-				if (type === 'up') {
-					this.up--;
-					this.userVote = null;
-				} else {
-					this.down--;
-					this.userVote = null;
-				}
+				this[type]--;
+				this.userVote = null;
 			} else {
-				console.log('user voted !== type');
-				if (type === 'up') {
-					this.up++;
-					this.down--;
-					this.userVote = 'up';
-				} else {
-					this.down++;
-					this.up--;
-					this.userVote = 'down';
-				}
+				this[type === 'up' ? 'down' : 'up']--;
+				this[type]++;
+				this.userVote = type;
 			}
 		},
 		getVotes: function getVotes() {
