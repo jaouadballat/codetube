@@ -1,6 +1,6 @@
 <template>
 	
-	<div class="voting">
+	<div class="voting" v-if="canVote">
 		<a href="" class="voting-up mr-2" :class="{voted: userVote == 'up'}" @click.prevent="vote('up')">
 			<span class="fa fa-thumbs-up" ></span>{{ up }}
 		</a>
@@ -30,16 +30,21 @@ export default {
 			if(!this.userVote){
 				this[type]++;
 				this.userVote = type;
+				this.creatVote(type)
 				return;
 			}
 			if(this.userVote === type) {
 				this[type]--;
 				this.userVote = null;
+				this.deleteVote();
 			}
 			else {
 				this[type === 'up' ? 'down' : 'up']--;
 				this[type]++;
 				this.userVote = type;
+				this.deleteVote();
+				this.creatVote(type);
+
 			}
 		},
 		getVotes() {
@@ -51,6 +56,14 @@ export default {
 				this.userVote = data.user_vote,
 				this.canVote = data.can_vote
 			});
+		},
+		creatVote(type) {
+			axios.post(`/video/${this.videoUid}/votes`, {
+				type: type
+			});
+		},
+		deleteVote() {
+			axios.delete(`/video/${this.videoUid}/votes`);
 		}
 	}
 

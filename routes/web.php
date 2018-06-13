@@ -29,6 +29,9 @@ Route::post('/video/{video}/views', 'VideoViewController@store');
 
 Route::middleware(['auth'])->group(function() {
 
+Route::post('/video/{video}/votes', 'VideoVoteController@createVote');
+Route::delete('/video/{video}/votes', 'VideoVoteController@deleteVote');
+
 Route::get('/channel/{channel}/edit', 'ChannelSettingsController@edit')->name('channel.edit');
 Route::put('/channel/{channel}/edit', 'ChannelSettingsController@update')->name('channel.update');
 

@@ -96245,15 +96245,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			if (!this.userVote) {
 				this[type]++;
 				this.userVote = type;
+				this.creatVote(type);
 				return;
 			}
 			if (this.userVote === type) {
 				this[type]--;
 				this.userVote = null;
+				this.deleteVote();
 			} else {
 				this[type === 'up' ? 'down' : 'up']--;
 				this[type]++;
 				this.userVote = type;
+				this.deleteVote();
+				this.creatVote(type);
 			}
 		},
 		getVotes: function getVotes() {
@@ -96264,6 +96268,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 			}).then(function (data) {
 				_this.up = data.up, _this.down = data.down, _this.userVote = data.user_vote, _this.canVote = data.can_vote;
 			});
+		},
+		creatVote: function creatVote(type) {
+			axios.post('/video/' + this.videoUid + '/votes', {
+				type: type
+			});
+		},
+		deleteVote: function deleteVote() {
+			axios.delete('/video/' + this.videoUid + '/votes');
 		}
 	}
 
@@ -96277,45 +96289,47 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "voting" }, [
-    _c(
-      "a",
-      {
-        staticClass: "voting-up mr-2",
-        class: { voted: _vm.userVote == "up" },
-        attrs: { href: "" },
-        on: {
-          click: function($event) {
-            $event.preventDefault()
-            _vm.vote("up")
-          }
-        }
-      },
-      [
-        _c("span", { staticClass: "fa fa-thumbs-up" }),
-        _vm._v(_vm._s(_vm.up) + "\n\t")
-      ]
-    ),
-    _vm._v(" "),
-    _c(
-      "a",
-      {
-        staticClass: "voting-down",
-        class: { voted: _vm.userVote == "down" },
-        attrs: { href: "" },
-        on: {
-          click: function($event) {
-            $event.preventDefault()
-            _vm.vote("down")
-          }
-        }
-      },
-      [
-        _c("span", { staticClass: "fa fa-thumbs-down" }),
-        _vm._v(_vm._s(_vm.down) + "\n\t")
-      ]
-    )
-  ])
+  return _vm.canVote
+    ? _c("div", { staticClass: "voting" }, [
+        _c(
+          "a",
+          {
+            staticClass: "voting-up mr-2",
+            class: { voted: _vm.userVote == "up" },
+            attrs: { href: "" },
+            on: {
+              click: function($event) {
+                $event.preventDefault()
+                _vm.vote("up")
+              }
+            }
+          },
+          [
+            _c("span", { staticClass: "fa fa-thumbs-up" }),
+            _vm._v(_vm._s(_vm.up) + "\n\t")
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "voting-down",
+            class: { voted: _vm.userVote == "down" },
+            attrs: { href: "" },
+            on: {
+              click: function($event) {
+                $event.preventDefault()
+                _vm.vote("down")
+              }
+            }
+          },
+          [
+            _c("span", { staticClass: "fa fa-thumbs-down" }),
+            _vm._v(_vm._s(_vm.down) + "\n\t")
+          ]
+        )
+      ])
+    : _vm._e()
 }
 var staticRenderFns = []
 render._withStripped = true

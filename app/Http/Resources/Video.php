@@ -14,7 +14,7 @@ class Video extends JsonResource
      */
     public function toArray($request)
     {
-        $voteFromUser = $this->voteFromUser($request->user())->first();
+        $voteFromUser = $request->user() ? $this->voteFromUser($request->user())->first() : null;
         return [
             'up' => $this->allowVotes() ? $this->upVotes()->count() : null,
             'down' => $this->allowVotes() ? $this->downVotes()->count() : null,
