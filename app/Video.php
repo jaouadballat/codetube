@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Traits\Orderable;
 use App\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -10,7 +11,7 @@ use Illuminate\Support\Facades\Storage;
 
 class Video extends Model
 {
-	use SoftDeletes;
+	use SoftDeletes, Orderable;
 
 	protected $fillable = [
 		'title',
@@ -35,10 +36,6 @@ class Video extends Model
     	return 'uid';
     }
 
-    public function scopeLatestFirst($query)
-    {
-    	return $query->orderBy('created_at', 'desc');
-    }
 
     public function allowVotes()
     {
@@ -108,6 +105,11 @@ class Video extends Model
     public function voteFromUser(User $user)
     {
         return $this->votes()->where('user_id', $user->id);
+    }
+
+    public function comments()
+    {
+        return $this->hasMany('App\Comment');
     }
 
     
