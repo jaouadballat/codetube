@@ -19,6 +19,8 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
+Route::get('/video/{video}/votes', 'VideoVoteController@show');
+
 Route::get('/video/{video}', 'VideoController@show');
 
 Route::get('/search', 'SearchController@index');

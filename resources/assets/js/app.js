@@ -17,6 +17,7 @@ window.Vue = require('vue');
 
 Vue.component('videoUpload', require('./components/VideoUpload.vue'));
 Vue.component('videoPlayer', require('./components/videoPlayer.vue'));
+Vue.component('videoVoting', require('./components/videoVoting.vue'));
 
 const app = new Vue({
     el: '#app',
