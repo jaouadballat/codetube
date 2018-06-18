@@ -47,6 +47,7 @@ Route::post('/video/{video}', 'VideoController@update')->name('video.update');
 Route::get('/videos/{video}/edit', 'VideoController@edit')->name('video.edit');
 Route::delete('/videos/{video}/delete', 'VideoController@delete')->name('video.delete');
 
+Route::post('/video/{video}/comment', 'CommentController@create');
 
 	
 

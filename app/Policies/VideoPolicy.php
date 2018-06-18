@@ -35,4 +35,9 @@ class VideoPolicy
     {
         return $video->allowVotes();
     }
+
+    public function comment(User $user, Video $video)
+    {
+        return $video->allowComments();
+    }
 }

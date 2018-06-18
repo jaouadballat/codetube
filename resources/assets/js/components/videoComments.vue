@@ -1,6 +1,12 @@
 <template>
     <div>
         <p>{{ comments.length }} {{ comments.length > 1 ? 'comments' : 'comment' }}</p>
+
+        <div class="video-comment clearfix" v-if="$root.user.authenticated">
+            <textarea class="form-control" v-model="body"></textarea>
+            <button class="btn btn-default float-right mt-3" @click="createComment">Comment</button>
+        </div>
+
         <div class="media mt-3" v-for="comment in comments" :key="comment.id">
             <a :href="`/channel/${comment.channel.slug}`">
                 <img class="mr-3" v-bind:src="comment.channel.image">
@@ -29,7 +35,8 @@ export default {
     props: ['videoUid'],
     data() {
         return {
-            comments: []
+            comments: [],
+            body: null
         }
     },
     mounted() {
@@ -38,8 +45,20 @@ export default {
     methods: {
         getComments() {
             axios.get(`/video/${this.videoUid}/comment`)
-                .then(response => {console.log(response.data.data); this.comments = response.data.data})
+                .then(response => {
+                     this.comments = _.orderBy(response.data.data, 'created_at', 'desc')
+                })
                 
+        },
+        createComment() {
+            axios.post(`/video/${this.videoUid}/comment`, {
+                body: this.body
+            }).then(response => {
+                this.body = null;
+                let {data} = response.data;
+               this.comments.unshift(data);
+
+            })
         }
     }
 }
