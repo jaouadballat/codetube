@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Video;
+use App\Comment;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 
-use App\Http\Resources\Comment;
+use App\Traits\Orderable;
+use Illuminate\Http\Request;
 use App\Http\Requests\CommentRequest;
 use App\Http\resources\Comment as CommentResource;
-use App\Traits\Orderable;
+use App\Http\resources\Replay as ReplayResource;
 
 class CommentController extends Controller
 {
@@ -17,7 +18,7 @@ class CommentController extends Controller
 
     public function index(Video $video)
     {
-        return  Comment::collection($video->comments);
+        return  CommentResource::collection($video->comments);
     }
 
     public function create(CommentRequest $request, Video $video)
@@ -29,5 +30,15 @@ class CommentController extends Controller
         ]);
 
         return new CommentResource($comment);
+    }
+
+    public function replay(Comment $comment, Request $request)
+    {
+        $replay = $comment->replies()->create([
+            'user_id' => $request->user()->id,
+            'body' => $request->body
+        ]);
+
+        return new ReplayResource($replay);
     }
 }

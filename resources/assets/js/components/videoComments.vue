@@ -7,7 +7,8 @@
             <button class="btn btn-default float-right mt-3" @click="createComment">Comment</button>
         </div>
 
-        <div class="media mt-3" v-for="comment in comments" :key="comment.id">
+        <div class="media mt-3" v-for="(comment, index) in comments" :key="comment.id">
+            
             <a :href="`/channel/${comment.channel.slug}`">
                 <img class="mr-3" v-bind:src="comment.channel.image">
             </a>
@@ -15,7 +16,15 @@
                 <h5 class="mt-0">
                     {{ comment.channel.name }}
                 </h5>
-                {{ comment.body }}
+                {{ comment.body }} <br>
+                 <a href="#" @click.prevent="replayComment(comment.id)">{{ commentId !== comment.id ? 'Replay' : 'Cancel' }}</a>
+                 <div class="media mt-2" v-if="commentId === comment.id">
+                    <div class="media-body">
+                        <textarea class="form-control" v-model="replay"></textarea>
+                        <button class="btn btn-default btn-sm mt-2 float-right"
+                         @click="addReplay(index)">Replay</button>
+                    </div>
+                </div>
                 <div class="media mt-2" v-for="reply in comment.replies" :key="reply.id">
                     <a :href="`/channel/${reply.channel.slug}`">
                         <img class="mr-3" :src="reply.channel.image" >
@@ -27,6 +36,7 @@
                 </div>
             </div>
         </div>
+        
     </div>
 </template>
 
@@ -36,7 +46,9 @@ export default {
     data() {
         return {
             comments: [],
-            body: null
+            body: null,
+            replay: null,
+            commentId: null
         }
     },
     mounted() {
@@ -59,7 +71,26 @@ export default {
                this.comments.unshift(data);
 
             })
+        },
+        replayComment(id) {
+            this.replay = null;
+            this.commentId === id ? this.commentId = null : this.commentId = id;
+        },
+        addReplay(index) {
+            axios.post(`/comments/${this.commentId}/replay`, {
+                body: this.replay
+            }).then(response => {
+                 this.comments[index].replies.push(response.data.data)
+                 this.replay = null;
+            });
         }
     }
 }
 </script>
+
+<style>
+a:hover {
+    text-decoration: none;
+}
+</style>
+
