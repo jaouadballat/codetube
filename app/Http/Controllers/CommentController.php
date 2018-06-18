@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Video;
 use App\Comment;
+use App\Reply;
 use Carbon\Carbon;
 
 use App\Traits\Orderable;
 use Illuminate\Http\Request;
 use App\Http\Requests\CommentRequest;
-use App\Http\resources\Comment as CommentResource;
 use App\Http\resources\Replay as ReplayResource;
+use App\Http\resources\Comment as CommentResource;
 
 class CommentController extends Controller
 {
@@ -40,5 +41,17 @@ class CommentController extends Controller
         ]);
 
         return new ReplayResource($replay);
+    }
+
+    public function deleteComment(Comment $comment)
+    {
+        $this->authorize('delete-comment', $comment);
+        $comment->delete();
+    }
+
+    public function deleteReplay(Comment $comment, Reply $replay)
+    {
+        $replay = $comment->replies->find($replay);
+        $replay->delete();
     }
 }

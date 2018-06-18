@@ -17,7 +17,13 @@
                     {{ comment.channel.name }}
                 </h5>
                 {{ comment.body }} <br>
-                 <a href="#" @click.prevent="replayComment(comment.id)">{{ commentId !== comment.id ? 'Replay' : 'Cancel' }}</a>
+
+                 <a href="#" @click.prevent="replayComment(comment.id)"
+                 v-if="$root.user.authenticated">{{ commentId !== comment.id ? 'Replay' : 'Cancel' }}</a>
+                
+                <a class="ml-3" href="#" @click.prevent="deleteComment(comment.id, index)"
+                 v-if="$root.user.id === comment.user_id">Delete</a>
+
                  <div class="media mt-2" v-if="commentId === comment.id">
                     <div class="media-body">
                         <textarea class="form-control" v-model="replay"></textarea>
@@ -25,13 +31,15 @@
                          @click="addReplay(index)">Replay</button>
                     </div>
                 </div>
-                <div class="media mt-2" v-for="reply in comment.replies" :key="reply.id">
-                    <a :href="`/channel/${reply.channel.slug}`">
-                        <img class="mr-3" :src="reply.channel.image" >
+                <div class="media mt-2" v-for="(replay, Rindex) in comment.replies" :key="replay.id">
+                    <a :href="`/channel/${replay.channel.slug}`">
+                        <img class="mr-3" :src="replay.channel.image" >
                     </a>
                     <div class="media-body">
-                        <h5 class="mt-0">{{ reply.channel.name }}</h5>
-                            {{ reply.body }}
+                        <h5 class="mt-0">{{ replay.channel.name }}</h5>
+                            {{ replay.body }} <br>
+                        <a class="ml-3" href="#" @click.prevent="deleteReplay(comment.id,replay.id, index,Rindex)"
+                        v-if="$root.user.id === replay.user_id">Delete</a>
                     </div>
                 </div>
             </div>
@@ -83,6 +91,18 @@ export default {
                  this.comments[index].replies.push(response.data.data)
                  this.replay = null;
             });
+        },
+        deleteComment(id, index) {           
+            axios.delete(`/comments/${id}/delete`)
+                .then(() => {
+                    this.comments.splice(index, 1)
+                });
+        },
+        deleteReplay(commentId, replayId,commentIndex, replayIndex) {
+            axios.delete(`/comments/${commentId}/replay/${replayId}`)
+                .then(() => {
+                     this.comments[commentIndex].replies.splice(replayIndex, 1)
+                });
         }
     }
 }

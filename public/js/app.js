@@ -96481,6 +96481,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['videoUid'],
@@ -96528,6 +96536,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             }).then(function (response) {
                 _this3.comments[index].replies.push(response.data.data);
                 _this3.replay = null;
+            });
+        },
+        deleteComment: function deleteComment(id, index) {
+            var _this4 = this;
+
+            axios.delete('/comments/' + id + '/delete').then(function () {
+                _this4.comments.splice(index, 1);
+            });
+        },
+        deleteReplay: function deleteReplay(commentId, replayId, commentIndex, replayIndex) {
+            var _this5 = this;
+
+            axios.delete('/comments/' + commentId + '/replay/' + replayId).then(function () {
+                _this5.comments[commentIndex].replies.splice(replayIndex, 1);
             });
         }
     }
@@ -96609,23 +96631,44 @@ var render = function() {
               _vm._v("\n            " + _vm._s(comment.body) + " "),
               _c("br"),
               _vm._v(" "),
-              _c(
-                "a",
-                {
-                  attrs: { href: "#" },
-                  on: {
-                    click: function($event) {
-                      $event.preventDefault()
-                      _vm.replayComment(comment.id)
-                    }
-                  }
-                },
-                [
-                  _vm._v(
-                    _vm._s(_vm.commentId !== comment.id ? "Replay" : "Cancel")
+              _vm.$root.user.authenticated
+                ? _c(
+                    "a",
+                    {
+                      attrs: { href: "#" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.replayComment(comment.id)
+                        }
+                      }
+                    },
+                    [
+                      _vm._v(
+                        _vm._s(
+                          _vm.commentId !== comment.id ? "Replay" : "Cancel"
+                        )
+                      )
+                    ]
                   )
-                ]
-              ),
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.$root.user.id === comment.user_id
+                ? _c(
+                    "a",
+                    {
+                      staticClass: "ml-3",
+                      attrs: { href: "#" },
+                      on: {
+                        click: function($event) {
+                          $event.preventDefault()
+                          _vm.deleteComment(comment.id, index)
+                        }
+                      }
+                    },
+                    [_vm._v("Delete")]
+                  )
+                : _vm._e(),
               _vm._v(" "),
               _vm.commentId === comment.id
                 ? _c("div", { staticClass: "media mt-2" }, [
@@ -96668,30 +96711,55 @@ var render = function() {
                   ])
                 : _vm._e(),
               _vm._v(" "),
-              _vm._l(comment.replies, function(reply) {
-                return _c("div", { key: reply.id, staticClass: "media mt-2" }, [
-                  _c(
-                    "a",
-                    { attrs: { href: "/channel/" + reply.channel.slug } },
-                    [
-                      _c("img", {
-                        staticClass: "mr-3",
-                        attrs: { src: reply.channel.image }
-                      })
-                    ]
-                  ),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "media-body" }, [
-                    _c("h5", { staticClass: "mt-0" }, [
-                      _vm._v(_vm._s(reply.channel.name))
-                    ]),
-                    _vm._v(
-                      "\n                        " +
-                        _vm._s(reply.body) +
-                        "\n                "
-                    )
-                  ])
-                ])
+              _vm._l(comment.replies, function(replay, Rindex) {
+                return _c(
+                  "div",
+                  { key: replay.id, staticClass: "media mt-2" },
+                  [
+                    _c(
+                      "a",
+                      { attrs: { href: "/channel/" + replay.channel.slug } },
+                      [
+                        _c("img", {
+                          staticClass: "mr-3",
+                          attrs: { src: replay.channel.image }
+                        })
+                      ]
+                    ),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "media-body" }, [
+                      _c("h5", { staticClass: "mt-0" }, [
+                        _vm._v(_vm._s(replay.channel.name))
+                      ]),
+                      _vm._v(
+                        "\n                        " + _vm._s(replay.body) + " "
+                      ),
+                      _c("br"),
+                      _vm._v(" "),
+                      _vm.$root.user.id === replay.user_id
+                        ? _c(
+                            "a",
+                            {
+                              staticClass: "ml-3",
+                              attrs: { href: "#" },
+                              on: {
+                                click: function($event) {
+                                  $event.preventDefault()
+                                  _vm.deleteReplay(
+                                    comment.id,
+                                    replay.id,
+                                    index,
+                                    Rindex
+                                  )
+                                }
+                              }
+                            },
+                            [_vm._v("Delete")]
+                          )
+                        : _vm._e()
+                    ])
+                  ]
+                )
               })
             ],
             2

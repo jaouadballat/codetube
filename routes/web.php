@@ -50,6 +50,8 @@ Route::delete('/videos/{video}/delete', 'VideoController@delete')->name('video.d
 Route::post('/video/{video}/comment', 'CommentController@create');
 
 Route::post('/comments/{comment}/replay', 'CommentController@replay');
+Route::delete('/comments/{comment}/delete', 'CommentController@deleteComment');
+Route::delete('/comments/{comment}/replay/{replay}', 'CommentController@deleteReplay');
 	
 
 });
