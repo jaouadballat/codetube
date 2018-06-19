@@ -17,11 +17,19 @@
                     :video-thumbnail="'{{ $video->getThumbnail() }}'"
                 />
             </div>
-        @else
+        @elseif($video->isPrivate())
             <div class="video_placeholder">
                 <p>
                     this video is private
                 </p>
+            </div>
+        @else
+             <div>
+                <video-player 
+                    :video-uid="'{{ $video->uid }}'"
+                    :video-url="'{{ $video->getVideoUrl() }}'"
+                    :video-thumbnail="'{{ $video->getThumbnail() }}'"
+                />
             </div>
         @endif
             <div class="card mt-2">
@@ -39,8 +47,7 @@
 					  	<a href="/channel/{{ $video->channel->slug }}">
 					    	<h5 class="mt-0">{{ $video->channel->name }}</h5>
 					    </a>
-					    <span>Subscrib button</span>
-					    Cras 
+					    <subscribe-button :channel-slug="'{{ $video->channel->slug }}'" />
 					  </div>
 					</div>
                 </div>

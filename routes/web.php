@@ -29,7 +29,11 @@ Route::get('/search', 'SearchController@index');
 
 Route::post('/video/{video}/views', 'VideoViewController@store');
 
+Route::get('/subscription/{channel}', 'ChannelSubscriptionController@show');
+
+
 Route::middleware(['auth'])->group(function() {
+
 
 Route::post('/video/{video}/votes', 'VideoVoteController@createVote');
 Route::delete('/video/{video}/votes', 'VideoVoteController@deleteVote');
@@ -52,6 +56,9 @@ Route::post('/video/{video}/comment', 'CommentController@create');
 Route::post('/comments/{comment}/replay', 'CommentController@replay');
 Route::delete('/comments/{comment}/delete', 'CommentController@deleteComment');
 Route::delete('/comments/{comment}/replay/{replay}', 'CommentController@deleteReplay');
-	
+    
+Route::post('/subscription/{channel}', 'ChannelSubscriptionController@create');
+Route::delete('/subscription/{channel}', 'ChannelSubscriptionController@delete');
+
 
 });

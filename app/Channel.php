@@ -42,4 +42,14 @@ class Channel extends Model
     {
         return $query->where('name', 'LIKE', '%'. $q .'%')->take(2)->get();
     }
+    
+    public function subscription()
+    {
+        return $this->hasMany('App\Subscription');
+    }
+
+    public function subscriptionCount()
+    {
+        return $this->subscription->count();
+    }
 }

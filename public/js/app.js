@@ -14489,7 +14489,7 @@ function applyToTag (styleElement, obj) {
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(18);
-module.exports = __webpack_require__(89);
+module.exports = __webpack_require__(92);
 
 
 /***/ }),
@@ -14517,6 +14517,7 @@ Vue.component('videoUpload', __webpack_require__(45));
 Vue.component('videoPlayer', __webpack_require__(48));
 Vue.component('videoVoting', __webpack_require__(78));
 Vue.component('videoComments', __webpack_require__(84));
+Vue.component('subscribeButton', __webpack_require__(89));
 
 var app = new Vue({
   el: '#app',
@@ -96782,6 +96783,158 @@ if (false) {
 
 /***/ }),
 /* 89 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(2)
+/* script */
+var __vue_script__ = __webpack_require__(90)
+/* template */
+var __vue_template__ = __webpack_require__(91)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources\\assets\\js\\components\\subscribeButton.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-273c9115", Component.options)
+  } else {
+    hotAPI.reload("data-v-273c9115", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 90 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+    props: ['channelSlug'],
+    data: function data() {
+        return {
+            subscribers: null,
+            userCanSubscriber: null,
+            userSubscribed: null
+        };
+    },
+    methods: {
+        toggleSubscribe: function toggleSubscribe() {
+            if (this.userSubscribed) {
+                this.unsubscribe();
+            } else {
+                this.subscribe();
+            }
+        },
+        subscribe: function subscribe() {
+            var _this = this;
+
+            axios.post('/subscription/' + this.channelSlug).then(function (response) {
+                _this.subscribers++;
+                _this.userSubscribed = true;
+            });
+        },
+        unsubscribe: function unsubscribe() {
+            var _this2 = this;
+
+            axios.delete('/subscription/' + this.channelSlug).then(function (response) {
+                _this2.subscribers--;
+                _this2.userSubscribed = false;
+            });
+        }
+    },
+    created: function created() {
+        var _this3 = this;
+
+        axios.get('/subscription/' + this.channelSlug).then(function (_ref) {
+            var data = _ref.data;
+
+            _this3.subscribers = data.count, _this3.userCanSubscriber = data.can_subscribed, _this3.userSubscribed = data.user_subscribed;
+        });
+    }
+});
+
+/***/ }),
+/* 91 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "subscribe" }, [
+    _vm._v(
+      "\n    " +
+        _vm._s(_vm.subscribers) +
+        " " +
+        _vm._s(_vm.subscribers > 1 ? "Subscribers" : "Subscriber") +
+        " "
+    ),
+    _vm.userCanSubscriber
+      ? _c(
+          "button",
+          {
+            staticClass: "btn btn-default btn-sm",
+            on: { click: _vm.toggleSubscribe }
+          },
+          [
+            _vm._v(
+              "\n        " +
+                _vm._s(_vm.userSubscribed ? "Unsubscribe" : "Subscribe") +
+                "\n    "
+            )
+          ]
+        )
+      : _vm._e()
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-273c9115", module.exports)
+  }
+}
+
+/***/ }),
+/* 92 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

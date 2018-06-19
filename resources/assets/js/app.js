@@ -19,6 +19,7 @@ Vue.component('videoUpload', require('./components/VideoUpload.vue'));
 Vue.component('videoPlayer', require('./components/videoPlayer.vue'));
 Vue.component('videoVoting', require('./components/videoVoting.vue'));
 Vue.component('videoComments', require('./components/videoComments.vue'));
+Vue.component('subscribeButton', require('./components/subscribeButton.vue'));
 
 const app = new Vue({
     el: '#app',
