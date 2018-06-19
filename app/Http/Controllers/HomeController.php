@@ -23,7 +23,7 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $videos = $request->user()->videosFromSubscription();
-        return view('home', compact('videos'));
+        $channels = $request->user()->subscribers()->with('videos')->get();
+        return view('home', compact('channels'));
     }
 }

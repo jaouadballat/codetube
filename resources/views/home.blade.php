@@ -6,30 +6,30 @@
         <div class="col-md-8">
 	            <div class="card">
 	                <div class="card-header">Videos</div>
-	                @if($videos->count() > 0)
-		        		@foreach($videos[0] as $video)
-			                <div class="card-body">
-			                    <div class="row">
-			                    	<div class="col">
-			                    		@if(file_exists(public_path('/uploads/' . $video->uid . '.png')))
+	                @if($channels->flatMap->videos->where('visibility', 'public')->count() > 0)
+		        		@foreach($channels->flatMap->videos->where('visibility', 'public') as $video)
+							<div class="card-body">
+								<div class="row">
+									<div class="col">
+										@if(file_exists(public_path('/uploads/' . $video->uid . '.png')))
 											<img src="{{ asset('/uploads/' . $video->uid . '.png')}}" width="150" height="100">
-			                    		@else
+										@else
 											<img src="{{ asset('/uploads/default.jpg') }}" width="150" height="100">
-			                    		@endif
-			                    	</div>
-			                    	<div class="col">
-			                    		<a href="/video/{{ $video->uid }}">
-			                    			{{ $video->title }}
-			                    		</a>
-			                    		<p>{{ $video->created_at->diffForHumans() }}</p>
+										@endif
+									</div>
+									<div class="col">
+										<a href="/video/{{ $video->uid }}">
+											{{ $video->title }}
+										</a>
+										<p>{{ $video->created_at->diffForHumans() }}</p>
 										<p>{{ $video->description }}</p>
-			                    	</div>
-			                    	<div class="col">
+									</div>
+									<div class="col">
 										<a href="/channel/{{ $video->channel->slug }}">{{ $video->channel->name }}</a>
 										<p>{{ $video->viewCount() }} View</p>
 									</div>
-			                    </div>
-			                </div>
+								</div>
+							</div>
 		            	@endforeach
 		            @else
 		            <p class="text-center">
