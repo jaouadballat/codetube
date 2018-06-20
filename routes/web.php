@@ -60,5 +60,7 @@ Route::delete('/comments/{comment}/replay/{replay}', 'CommentController@deleteRe
 Route::post('/subscription/{channel}', 'ChannelSubscriptionController@create');
 Route::delete('/subscription/{channel}', 'ChannelSubscriptionController@delete');
 
+Route::get('/channel/{channel}', 'ChannelController@show');
+
 
 });

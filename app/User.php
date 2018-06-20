@@ -53,13 +53,6 @@ class User extends Authenticatable
         return (bool) $this->channel->where('id', $channel->id)->count();
     }
 
-    public function videosFromSubscription()
-    {
-        return $this->subscriptions->map(function($query) {
-            return Channel::where('id', $query->channel_id)
-                ->first()->videos()->where('visibility', 'public')->get();
-        });
-    }
 
     public function subscribers()
     {

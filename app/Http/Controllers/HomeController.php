@@ -23,7 +23,10 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        $channels = $request->user()->subscribers()->with('videos')->get();
-        return view('home', compact('channels'));
+        $channels = $request->user()->subscribers()->with(['videos' => function($query) {
+            $query->where('visibility', 'public')->orderBy('created_at', 'desc');
+        }])->get();
+        
+         return view('home', compact('channels'));
     }
 }

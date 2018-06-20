@@ -6,8 +6,8 @@
         <div class="col-md-8">
 	            <div class="card">
 	                <div class="card-header">Videos</div>
-	                @if($channels->flatMap->videos->where('visibility', 'public')->count() > 0)
-		        		@foreach($channels->flatMap->videos->where('visibility', 'public') as $video)
+	                @if($channels->flatMap->videos->count() > 0)
+		        		@foreach($channels->flatMap->videos as $video)
 							<div class="card-body">
 								<div class="row">
 									<div class="col">
