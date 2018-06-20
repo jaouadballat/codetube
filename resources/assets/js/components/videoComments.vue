@@ -14,7 +14,8 @@
             </a>
             <div class="media-body">
                 <h5 class="mt-0">
-                    {{ comment.channel.name }}
+                    {{ comment.channel.name }} 
+                    <span class="ml-5 font-weight-light">{{ comment.created_at_human }}</span>
                 </h5>
                 {{ comment.body }} <br>
 
@@ -36,7 +37,10 @@
                         <img class="mr-3" :src="replay.channel.image" >
                     </a>
                     <div class="media-body">
-                        <h5 class="mt-0">{{ replay.channel.name }}</h5>
+                        <h5 class="mt-0">{{ replay.channel.name }}
+                            <span class="ml-3 font-weight-light">{{ replay.created_at_forHumain }}</span>
+                        </h5>
+                        
                             {{ replay.body }} <br>
                         <a class="ml-3" href="#" @click.prevent="deleteReplay(comment.id,replay.id, index,Rindex)"
                         v-if="$root.user.id === replay.user_id">Delete</a>

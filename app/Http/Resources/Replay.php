@@ -20,6 +20,7 @@ class Replay extends JsonResource
             'user_id' => $this->user_id,
             'body' => $this->body,
             'channel' => new ChannelResource($this->user->channel->first()),
+            'created_at_forHumain' => $this->created_at->diffForHumans()
         ];
     }
 }

@@ -96490,6 +96490,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['videoUid'],
@@ -96626,8 +96630,11 @@ var render = function() {
                 _vm._v(
                   "\n                " +
                     _vm._s(comment.channel.name) +
-                    "\n            "
-                )
+                    " \n                "
+                ),
+                _c("span", { staticClass: "ml-5 font-weight-light" }, [
+                  _vm._v(_vm._s(comment.created_at_human))
+                ])
               ]),
               _vm._v("\n            " + _vm._s(comment.body) + " "),
               _c("br"),
@@ -96730,10 +96737,18 @@ var render = function() {
                     _vm._v(" "),
                     _c("div", { staticClass: "media-body" }, [
                       _c("h5", { staticClass: "mt-0" }, [
-                        _vm._v(_vm._s(replay.channel.name))
+                        _vm._v(
+                          _vm._s(replay.channel.name) +
+                            "\n                        "
+                        ),
+                        _c("span", { staticClass: "ml-3 font-weight-light" }, [
+                          _vm._v(_vm._s(replay.created_at_forHumain))
+                        ])
                       ]),
                       _vm._v(
-                        "\n                        " + _vm._s(replay.body) + " "
+                        "\n                    \n                        " +
+                          _vm._s(replay.body) +
+                          " "
                       ),
                       _c("br"),
                       _vm._v(" "),

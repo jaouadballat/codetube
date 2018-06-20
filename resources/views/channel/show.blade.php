@@ -47,7 +47,7 @@
                                 </a>
                                 <p>{{ $video->created_at }}</p>
                             </div>
-                            <div class="col">{{ $video->visibility }}</div>
+                            <div class="col">{{ $channel->totalViews()->count() }}  {{ str_plural('view', $channel->totalViews()->count()) }}</div>
                         </div>
                     </div>
                 @endforeach
